@@ -12,6 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -24,7 +25,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: (config: ConfigService) => ({
         type: 'mysql' as const,
         host: config.get<string>('DB_HOST', 'localhost'),
-        port: config.get<number>('DB_PORT', 3306),
+        port: Number(config.get<string>('DB_PORT', '3306')) || 3306,
         username: config.get<string>('DB_USERNAME', 'root'),
         password: config.get<string>('DB_PASSWORD', ''),
         database: config.get<string>(
@@ -40,6 +41,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     UsuariosModule,
     RolesModule,
+    AuthModule,
+    HabitacionesModule,
+    ReservasModule,
+    CommonModule,
+  
   ],
 
 })
